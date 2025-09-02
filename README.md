@@ -1,7 +1,7 @@
 ## **1. Single Responsibility Principle (SRP)**
 
 **Martin’s summary:**
-"A class should have one, and only one, reason to change."
+>"A class should have one, and only one, reason to change."
 
 **Nouman Ali Khan explanation (conversational):**
 You know, sometimes we try to do too much at once, and it becomes messy. The same happens with classes. If a class is trying to cook, serve, and clean all at the same time, every time one thing changes, it can break something else. It’s much simpler and safer if a class focuses on just **one responsibility**. Then you know exactly what will change when you need to make an update.
@@ -43,7 +43,7 @@ class Cleaner {
 ## **2. Open-Closed Principle (OCP)**
 
 **Martin’s summary:**
-"You should be able to extend a class's behavior, without modifying it."
+>"You should be able to extend a class's behavior, without modifying it."
 
 **Nouman Ali Khan explanation (conversational):**
 Think about this—every time you want to add something new, you don’t want to break what already works. If you go and change the existing class, even a tiny change could create a bug somewhere else. It’s much safer if you can **extend the class** to add new features without touching the old code. That way, the original works perfectly, and you just build on top of it.
@@ -85,7 +85,7 @@ class SpoilerCar extends Car {
 ## **3. Liskov Substitution Principle (LSP)**
 
 **Martin’s summary:**
-"Derived classes must be substitutable for their base classes."
+>"Derived classes must be substitutable for their base classes."
 
 **Nouman Ali Khan explanation (conversational):**
 Here’s the point—you should be able to replace a parent class with a child class without breaking anything. If the child behaves differently in a way the parent didn’t promise, the code that uses the parent will break. So subclasses should **honor the expectations** of their base classes.
@@ -132,7 +132,7 @@ class ElectricCar2 {
 ## **4. Interface Segregation Principle (ISP)**
 
 **Martin’s summary:**
-"Make fine grained interfaces that are client specific."
+>"Make fine grained interfaces that are client specific."
 
 **Nouman Ali Khan explanation (conversational):**
 Sometimes we give people things they don’t need, and it just makes their job harder. In code, if a class is forced to implement methods it doesn’t use, it becomes messy and harder to maintain. We should give each class **just what it needs**.
