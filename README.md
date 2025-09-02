@@ -54,22 +54,29 @@ Open-Closed Principle states that software entities should be open for extension
 **Analogy:**
 Think of a tree. You don’t cut the trunk to add a new branch. You grow the branch on top. The trunk remains solid, and the tree grows safely without compromising what’s already there.
 
-**Java implementation:**
+**Analogy 2:**  
+Think of a car. You don’t need to take apart an entire car just to add a spoiler. The car already works perfectly. Instead, you can attach the spoiler onto it without modifying the original car. The original car remains functional, and the new feature is added safely.  
+
+**Java implementation:**  
 
 ```java
-// ❌ BAD: Modifying original class to add features
-class Guitar {
-    void play() { System.out.println("Playing..."); }
-    // later added flame effect here → modifying old class
+// ❌ BAD: Modifying the Car class to add a spoiler
+class Car {
+    void startEngine() { System.out.println("Engine started"); }
+    void drive() { System.out.println("Driving..."); }
+    
+    // Later added spoiler here → modifying old class
+    // void addSpoiler() { System.out.println("Spoiler added"); }
 }
 
-// ✅ GOOD: Extend class to add new features
-class Guitar {
-    void play() { System.out.println("Playing..."); }
+// ✅ GOOD: Extend Car class to add a spoiler
+class Car {
+    void startEngine() { System.out.println("Engine started"); }
+    void drive() { System.out.println("Driving..."); }
 }
 
-class FlamingGuitar extends Guitar {
-    void playWithFlames() { System.out.println("Playing with flames!"); }
+class SpoilerCar extends Car {
+    void addSpoiler() { System.out.println("Spoiler added"); }
 }
 ```
 
@@ -88,6 +95,9 @@ Liskov Substitution Principle ensures that subclasses can replace their base cla
 
 **Analogy:**
 Think of a wheelchair ramp. Any wheelchair should be able to use the ramp safely. If a new type of wheelchair suddenly doesn’t fit, the ramp has failed its purpose. The same goes for subclasses—they must fit the expectations set by the base class.
+
+**Analogy 2:**
+Think of a car. Some cars have engines (petrol cars), and some don’t (electric cars). If the base Car class requires a startEngine() method, forcing all cars—including electric cars—to implement it, this would violate this principle. Electric cars don’t have engines, so they can’t fulfill that expectation, so we shouldn't put a startEngine() method in Car. Subclasses should only promise behavior that makes sense for them.
 
 **Java implementation:**
 
