@@ -54,7 +54,7 @@ Open-Closed Principle states that software entities should be open for extension
 **Analogy:**
 Think of a tree. You don’t cut the trunk to add a new branch. You grow the branch on top. The trunk remains solid, and the tree grows safely without compromising what’s already there.
 
-**Analogy 2:**  
+**Analogy 2:**
 Think of a car. You don’t need to take apart an entire car just to add a spoiler. The car already works perfectly. Instead, you can attach the spoiler onto it without modifying the original car. The original car remains functional, and the new feature is added safely.  
 
 **Java implementation:**  
@@ -171,34 +171,55 @@ class BearCarer2 implements BearFeeder, BearCleaner {
 
 ---
 
-## **5. Dependency Inversion Principle (DIP)**
+## 5. Dependency Inversion Principle (DIP)
 
-**Martin’s summary:**
-"Depend on abstractions, not on concretions."
+**Martin’s summary:**  
+> "Depend on abstractions, not on concretions."
 
-**Nouman Ali Khan explanation (conversational):**
-If you tie yourself to details, you can’t change anything easily. It’s better to rely on ideas or contracts. That way, you can swap the actual implementation whenever you need to, without breaking the code that depends on it.
+**Nouman Ali Khan explanation (conversational):**  
+Think about this: if your high-level code is tied directly to a specific detail, like a particular keyboard, changing that detail becomes a nightmare. Instead, rely on a general idea—a contract. Then you can swap in any specific implementation without breaking anything. This makes your code flexible and easy to test.  
 
-**Technical explanation:**
-Dependency Inversion Principle states that high-level modules should depend on abstractions, not concrete implementations. This decouples the system, allows for easier testing, and makes swapping implementations simple.
+**Technical explanation:**  
+Dependency Inversion Principle means high-level modules should depend on abstractions (interfaces or abstract classes), not concrete implementations. Low-level modules should also depend on these abstractions. This decouples the system, allows for easier testing, and makes replacing or extending functionality simple.  
 
-**Analogy:**
-Think of a power socket. Any appliance can plug in as long as it fits the socket. You don’t design a new socket for every appliance. The socket is the abstraction; the appliance is the implementation.
+**Analogy:**  
+Think of a computer and its keyboard. You don’t want the computer to only work with one brand of keyboard. If it’s tied to a specific keyboard, changing to a better keyboard breaks everything. Instead, the computer should depend on the idea of a keyboard. Any keyboard that implements this idea can be plugged in, and everything still works perfectly.  
 
-**Java implementation:**
+**Java implementation:**  
 
 ```java
-// ❌ BAD: High-level class depends on concrete class
-class Windows98Machine {
+// ❌ BAD: High-level class depends on a specific keyboard
+class Computer {
     StandardKeyboard keyboard = new StandardKeyboard();
+    void type() { System.out.println("Typing on standard keyboard"); }
 }
 
-// ✅ GOOD: Depend on abstraction
-interface Keyboard {}
-class StandardKeyboard implements Keyboard {}
+// ✅ GOOD: High-level class depends on abstraction
+interface Keyboard {
+    void type();
+}
 
-class Windows98Machine2 {
+class StandardKeyboard implements Keyboard {
+    public void type() { System.out.println("Typing on standard keyboard"); }
+}
+
+class MechanicalKeyboard implements Keyboard {
+    public void type() { System.out.println("Typing on mechanical keyboard"); }
+}
+
+class Computer2 {
     private Keyboard keyboard;
-    Windows98Machine2(Keyboard keyboard) { this.keyboard = keyboard; }
+
+    Computer2(Keyboard keyboard) {
+        this.keyboard = keyboard;
+    }
+
+    void type() {
+        keyboard.type();
+    }
 }
+
+// Usage
+Computer2 myComputer = new Computer2(new MechanicalKeyboard());
+myComputer.type(); // Typing on mechanical keyboard
 ```
