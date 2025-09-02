@@ -1,1 +1,194 @@
-# SOLID
+## **1. Single Responsibility Principle (SRP)**
+
+**Martin’s summary:**
+"A class should have one, and only one, reason to change."
+
+**Nouman Ali Khan explanation (conversational):**
+You know, sometimes we try to do too much at once, and it becomes messy. The same happens with classes. If a class is trying to cook, serve, and clean all at the same time, every time one thing changes, it can break something else. It’s much simpler and safer if a class focuses on just **one responsibility**. Then you know exactly what will change when you need to make an update.
+
+**Technical explanation:**
+Single Responsibility Principle ensures that a class has a single, well-defined functionality. When a class combines multiple responsibilities, modifying one part may inadvertently affect the other parts. Keeping a class focused on one responsibility increases cohesion, reduces coupling, and makes the code easier to maintain, test, and extend.
+
+**Analogy:**
+Think of a chef in a kitchen. If the chef has to cook, serve, clean, and manage accounts, chaos ensues. But if each person has one responsibility—one cooks, one serves, one cleans—then the kitchen runs smoothly.
+
+**Java implementation:**
+
+```java
+// ❌ BAD: One class handling multiple responsibilities
+class KitchenStaff {
+    void cook() { System.out.println("Cooking food"); }
+    void serve() { System.out.println("Serving food"); }
+    void clean() { System.out.println("Cleaning kitchen"); }
+}
+
+// ✅ GOOD: Each class has a single responsibility
+class Chef {
+    void cook() { System.out.println("Cooking food"); }
+}
+
+class Waiter {
+    void serve() { System.out.println("Serving food"); }
+}
+
+class Cleaner {
+    void clean() { System.out.println("Cleaning kitchen"); }
+}
+```
+
+
+
+---
+
+## **2. Open-Closed Principle (OCP)**
+
+**Martin’s summary:**
+"You should be able to extend a class's behavior, without modifying it."
+
+**Nouman Ali Khan explanation (conversational):**
+Think about this—every time you want to add something new, you don’t want to break what already works. If you go and change the existing class, even a tiny change could create a bug somewhere else. It’s much safer if you can **extend the class** to add new features without touching the old code. That way, the original works perfectly, and you just build on top of it.
+
+**Technical explanation:**
+Open-Closed Principle states that software entities should be open for extension but closed for modification. This is typically achieved using inheritance or polymorphism. The idea is to add new functionality by extending existing code rather than modifying it, which protects verified functionality and reduces risk of bugs.
+
+**Analogy:**
+Think of a tree. You don’t cut the trunk to add a new branch. You grow the branch on top. The trunk remains solid, and the tree grows safely without compromising what’s already there.
+
+**Java implementation:**
+
+```java
+// ❌ BAD: Modifying original class to add features
+class Guitar {
+    void play() { System.out.println("Playing..."); }
+    // later added flame effect here → modifying old class
+}
+
+// ✅ GOOD: Extend class to add new features
+class Guitar {
+    void play() { System.out.println("Playing..."); }
+}
+
+class FlamingGuitar extends Guitar {
+    void playWithFlames() { System.out.println("Playing with flames!"); }
+}
+```
+
+---
+
+## **3. Liskov Substitution Principle (LSP)**
+
+**Martin’s summary:**
+"Derived classes must be substitutable for their base classes."
+
+**Nouman Ali Khan explanation (conversational):**
+Here’s the point—you should be able to replace a parent class with a child class without breaking anything. If the child behaves differently in a way the parent didn’t promise, the code that uses the parent will break. So subclasses should **honor the expectations** of their base classes.
+
+**Technical explanation:**
+Liskov Substitution Principle ensures that subclasses can replace their base classes without altering expected behavior. Violating LSP leads to fragile code and breaks polymorphism. Proper inheritance maintains substitutability and predictable behavior.
+
+**Analogy:**
+Think of a wheelchair ramp. Any wheelchair should be able to use the ramp safely. If a new type of wheelchair suddenly doesn’t fit, the ramp has failed its purpose. The same goes for subclasses—they must fit the expectations set by the base class.
+
+**Java implementation:**
+
+```java
+// ❌ BAD: ElectricCar breaks expectations of Car
+interface Car {
+    void startEngine();
+}
+
+class PetrolCar implements Car {
+    public void startEngine() { System.out.println("Engine started"); }
+}
+
+class ElectricCar implements Car {
+    public void startEngine() { throw new UnsupportedOperationException(); }
+}
+
+// ✅ GOOD: Separate responsibilities
+interface EngineCar { void startEngine(); }
+
+class PetrolCar2 implements EngineCar {
+    public void startEngine() { System.out.println("Engine started"); }
+}
+
+class ElectricCar2 {
+    void startMotor() { System.out.println("Motor running"); } // no engine assumption
+}
+```
+
+---
+
+## **4. Interface Segregation Principle (ISP)**
+
+**Martin’s summary:**
+"Make fine grained interfaces that are client specific."
+
+**Nouman Ali Khan explanation (conversational):**
+Sometimes we give people things they don’t need, and it just makes their job harder. In code, if a class is forced to implement methods it doesn’t use, it becomes messy and harder to maintain. We should give each class **just what it needs**.
+
+**Technical explanation:**
+Interface Segregation Principle says that large, fat interfaces should be split into smaller, client-specific interfaces. Classes should only implement interfaces relevant to their responsibilities, reducing unnecessary coupling and promoting maintainability.
+
+**Analogy:**
+Think of a zookeeper. Some zookeepers feed and wash the bears. Others just pet them. Don’t make someone who only feeds bears also pet them—they shouldn’t have that extra responsibility.
+
+**Java implementation:**
+
+```java
+// ❌ BAD: Fat interface
+interface BearKeeper {
+    void washBear();
+    void feedBear();
+    void petBear();
+}
+
+class BearCarer implements BearKeeper {
+    public void washBear() {}
+    public void feedBear() {}
+    public void petBear() { throw new UnsupportedOperationException(); }
+}
+
+// ✅ GOOD: Small, client-specific interfaces
+interface BearFeeder { void feedBear(); }
+interface BearCleaner { void washBear(); }
+
+class BearCarer2 implements BearFeeder, BearCleaner {
+    public void feedBear() {}
+    public void washBear() {}
+}
+```
+
+---
+
+## **5. Dependency Inversion Principle (DIP)**
+
+**Martin’s summary:**
+"Depend on abstractions, not on concretions."
+
+**Nouman Ali Khan explanation (conversational):**
+If you tie yourself to details, you can’t change anything easily. It’s better to rely on ideas or contracts. That way, you can swap the actual implementation whenever you need to, without breaking the code that depends on it.
+
+**Technical explanation:**
+Dependency Inversion Principle states that high-level modules should depend on abstractions, not concrete implementations. This decouples the system, allows for easier testing, and makes swapping implementations simple.
+
+**Analogy:**
+Think of a power socket. Any appliance can plug in as long as it fits the socket. You don’t design a new socket for every appliance. The socket is the abstraction; the appliance is the implementation.
+
+**Java implementation:**
+
+```java
+// ❌ BAD: High-level class depends on concrete class
+class Windows98Machine {
+    StandardKeyboard keyboard = new StandardKeyboard();
+}
+
+// ✅ GOOD: Depend on abstraction
+interface Keyboard {}
+class StandardKeyboard implements Keyboard {}
+
+class Windows98Machine2 {
+    private Keyboard keyboard;
+    Windows98Machine2(Keyboard keyboard) { this.keyboard = keyboard; }
+}
+```
